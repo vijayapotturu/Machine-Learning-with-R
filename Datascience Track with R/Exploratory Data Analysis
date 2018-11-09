@@ -1,0 +1,318 @@
+  ggplot(data,aes(x=var1,fill=var2)) + layer_name()
+
+  levels(comics$align)
+  levels(comics$id)
+  table(comics$id,comics$align) 
+
+  ggplot(comics,aes(x=id,fill=align)) + geom_bar()
+
+  # Load ggplot2
+library(ggplot2)
+
+# Create side-by-side barchart of gender by alignment
+ggplot(comics, aes(x = align, fill = gender)) + 
+  geom_bar(position = "dodge")
+
+# Create side-by-side barchart of alignment by gender
+ggplot(comics, aes(x = gender, fill = align)) + 
+  geom_bar(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90))
+
+  ggplot(comics, aes(x = id, fill = align)) + 
+  geom_bar(position = "fill") + ylab("proportion")
+
+  tab <- table(comics$align, comics$gender)
+options(scipen = 999, digits = 3) # Print fewer digits
+prop.table(tab)     # Joint proportions
+prop.table(tab, 2)  # Conditional on columns
+
+# Plot of gender by align
+ggplot(comics, aes(x = align, fill = gender)) +
+  geom_bar()
+  
+# Plot proportion of gender, conditional on align
+ggplot(comics, aes(x = align, fill = gender)) + 
+  geom_bar(position = "fill") +
+  ylab("proportion")
+
+  Distribution of one variable:
+
+  ggplot(comics,aes(x=id)) + geom_bar() + facet_wrap(~align)
+
+
+  # Put levels of flavor in decending order
+lev <- c("apple", "key lime", "boston creme", "blueberry", "cherry", "pumpkin", "strawberry")
+pies$flavor <- factor(pies$flavor, levels = lev)
+
+# Create barchart of flavor
+ggplot(pies, aes(x = flavor)) + 
+  geom_bar(fill = "chartreuse") + 
+  theme(axis.text.x = element_text(angle = 90))
+
+# Alternative solution to finding levels
+# lev <- unlist(select(arrange(cnt, desc(n)), flavor))
+
+Integers are descreate and numerical are continuous
+
+few integer variables can be categorical variables.
+
+ggplot(data,aes(x = weight)) + geom_dotplot(dotsize = 0.4)
+
+ggplot(data,aes(x = weight)) + geom_histogram()
+ggplot(data,aes(x = weight)) + geom_density()
+ggplot(data,aes(x = 1,y = weight)) + geom_boxplot() + coord_flip()
+
+ggplot(cars,aes(x = hwy_mpg)) + geom_histogram() + facet_wrap(~pickup)
+
+# Load package
+library(ggplot2)
+
+# Learn data structure
+str(cars)
+
+# Create faceted histogram
+ggplot(cars, aes(x = city_mpg)) +
+  geom_histogram() +
+  facet_wrap(~ suv)
+
+  In facet_wrap() we can use categorical variables.
+
+  # Filter cars with 4, 6, 8 cylinders
+common_cyl <- filter(cars,ncyl==4 |ncyl==6|ncyl==8)
+
+# Create box plots of city mpg by ncyl
+ggplot(common_cyl, aes(x = as.factor(ncyl), y = city_mpg)) +
+  geom_boxplot()
+
+# Create overlaid density plots for same data
+ggplot(common_cyl, aes(x = city_mpg, fill = as.factor(ncyl))) +
+  geom_density(alpha = .3)
+
+
+  ggplot(cars,aes(x = hwy_mpg)) + geom_histogram()
+
+  ggplot(cars,aes(x = hwy_mpg)) + geom_histogram() + facet_wrap(~pickup)
+
+  cars2 <- cars %>% filter(eng_size < 2.0)
+  ggplot(cars2,aes(x= hwy_mpg)) + geom_histogram()
+
+  cars %>%
+  filter(eng_size < 2.0) %>%
+  ggplot(aes(x = hwy_mpg)) +
+  geom_histogram(binwidth = 5)
+
+  cars %>%
+  filter(eng_size < 2.0) %>%
+  ggplot(aes(x = hwy_mpg)) +
+  geom_density(bw = 5)
+
+  # Create hist of horsepwr
+cars %>%
+  ggplot(aes(horsepwr)) +
+  geom_histogram ()+
+  ggtitle("First histogram")
+
+# Create hist of horsepwr for affordable cars
+cars %>% 
+  filter(msrp < 25000) %>%
+  ggplot(aes(horsepwr)) +
+  geom_histogram() +
+  xlim(c(90, 550)) +
+  ggtitle("second histogram")
+
+  # Create hist of horsepwr with binwidth of 3
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 3) +
+  ggtitle("First Histogram")
+
+# Create hist of horsepwr with binwidth of 30
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 30) +
+  ggtitle("second Histogram")
+
+# Create hist of horsepwr with binwidth of 60
+cars %>%
+  ggplot(aes(x = horsepwr)) +
+  geom_histogram(binwidth = 60) +
+  ggtitle("Third Histogram")
+
+side-by-side box plots
+ggplot(common_cyl, aes(x = as.factor(ncyl), y = city_mpg)) +
+  geom_boxplot()
+
+  # Construct box plot of msrp
+cars %>%
+  ggplot(aes(x = 1, y = msrp)) +
+  geom_boxplot()
+
+# Exclude outliers from data
+cars_no_out <- cars %>%
+  filter(msrp < 100000)
+
+# Construct box plot of msrp using the reduced dataset
+cars_no_out %>%
+  ggplot(aes(x = 1, y = msrp)) +
+  geom_boxplot()
+
+
+  ggplot(cars,aes(x = msrp)) +
+  geom_density() +
+  facet_grid(pickup ~ rear_wheel ,labeller = label_both)
+
+  table(cars$rear_wheel,cars$pickup)
+
+  # Facet hists using hwy mileage and ncyl
+common_cyl %>%
+  ggplot(aes(x = hwy_mpg)) +
+  geom_histogram() +
+  facet_grid(ncyl ~ suv) +
+  ggtitle("faceted by ncyl and suv")
+
+  x <- head(round(life$expectancy),11)
+
+  Mean - Average
+  Median - Sorted and middle value
+  Mode - Most common observation
+
+  life <- life %>%
+  mutate(west_coast = state %in% c("California","Oregon","Washington"))
+
+	life %>%
+	group_by(west_coast) %>%
+	summarise(mean(expectancy),median(expectancy))
+life %>%
+slice(240:247) %>%
+summarize(mean(expectancy))
+
+life %>%
+slice(240:247) %>%
+group_by(west_coast) %>%
+summarize(mean(expectancy))
+
+# Create dataset of 2007 data
+gap2007 <- filter(gapminder, year==2007)
+
+# Compute groupwise mean and median lifeExp
+gap2007 %>%
+  group_by(continent) %>%
+  summarize(mean(lifeExp),
+            median(lifeExp))
+
+# Generate box plots of lifeExp for each continent
+gap2007 %>%
+  ggplot(aes(x = continent, y =lifeExp)) +
+  geom_boxplot()
+
+  # Compute groupwise measures of spread
+gap2007 %>%
+  group_by(continent) %>%
+  summarize(sd(lifeExp),
+            IQR(lifeExp),
+            n())
+
+# Generate overlaid density plots
+gap2007 %>%
+  ggplot(aes(x = lifeExp, fill = continent)) +
+
+  geom_density(alpha = 0.3)
+
+  # Compute stats for lifeExp in Americas
+gap2007 %>%
+  filter(continent == "Americas") %>%
+  summarize(mean(lifeExp),
+            sd(lifeExp))
+
+# Compute stats for population
+gap2007 %>%
+  summarize(median(pop),
+            IQR(pop))
+
+ ggplot(life,aes(x=income,fill =west_coast))+
+ geom_density(alpha = .3)
+
+  ggplot(life,aes(x=log(income),fill=west_coast))+
+ geom_density(alpha = .3)
+
+ # Create density plot of old variable
+gap2007 %>%
+  ggplot(aes(x = pop)) +
+  geom_density(alpha = .3)
+
+# Transform the skewed pop variable
+gap2007 <- gap2007 %>%
+  mutate(log_pop = log(pop))
+
+# Create density plot of new variable
+gap2007 %>%
+  ggplot(aes(x = log_pop)) +
+  geom_density(alpha = .3)
+
+  life <- life %>%
+  mutate(is_oulier = income > 75000)
+
+  life %>%
+  filter(is_outlier) %>%
+  arrange(desc(income))
+
+  life %>%
+  filter(!is_oulier %>%
+  ggplot(aes(x = income,fill =west_coat))+
+  geom_density(alpha = .3)
+
+  # Filter for Asia, add column indicating outliers
+gap_asia <- gap2007 %>%
+  filter(continent == "Asia") %>%
+  mutate(is_outlier = lifeExp < 50)
+
+# Remove outliers, create box plot of lifeExp
+gap_asia %>% 
+  filter(!is_outlier) %>%
+  ggplot(aes(x = 1, y = lifeExp)) +
+  geom_boxplot()
+
+  Histograms take continous data
+
+  ggplot(data,aes(x =var1)) + geom_histogram()
+
+  # Load packages
+library(ggplot2)
+library(dplyr)
+library(openintro)
+
+# Compute summary statistics
+email %>%
+  group_by(spam) %>%
+  summarize(median(num_char),IQR(num_char))
+
+# Create plot
+email %>%
+  mutate(log_num_char = log(num_char)) %>%
+  ggplot(aes(x = spam, y = log_num_char)) +
+  geom_boxplot()
+
+  # Compute center and spread for exclaim_mess by spam
+
+email %>%
+  group_by(spam) %>%
+  summarize(median(exclaim_mess),IQR(exclaim_mess))
+
+
+# Create plot for spam and exclaim_mess
+email %>%
+  mutate(log_exclaim_mess = log(exclaim_mess+.01)) %>%
+  ggplot(aes(x = log_exclaim_mess)) +
+  geom_histogram() +facet_wrap(~spam)
+
+  # Question 1
+email %>%
+  filter(dollar > 0) %>%
+  group_by(spam) %>%
+  summarize(median(dollar))
+
+# Question 2
+email %>%
+  filter(dollar > 10) %>%
+  ggplot(aes(x = spam)) +
+  geom_bar()
